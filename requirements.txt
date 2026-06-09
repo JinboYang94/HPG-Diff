@@ -1,0 +1,15 @@
+accelerate
+bitsandbytes
+blobfile
+datasets
+einops
+matplotlib
+numpy
+opencv-python
+peft
+Pillow
+scipy
+seaborn
+solidspy
+torch
+tqdm

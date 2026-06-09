@@ -1,0 +1,16 @@
+.idea/
+checkpoints/
+data/
+generated/
+generated_rmt/
+visualizations/
+fem_files/
+mask_vis/
+masks/
+preprocessing/
+LoRA_training/lora_checkpoints
+LoRA_training/LoRA_data
+test_our_data/
+masks_lora/
+utils/generated_res
+
