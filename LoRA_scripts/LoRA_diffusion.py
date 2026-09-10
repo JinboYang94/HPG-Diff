@@ -347,7 +347,6 @@ def main():
                     clean_images,
                     constraints,
                     t,
-                    x_plus=image_plus,
                     model_kwargs={'context': micro_masks}
                 )
 
@@ -362,8 +361,7 @@ def main():
                         model,
                         clean_images,
                         constraints,
-                        t,
-                        x_plus=image_plus
+                        t
                     )
 
                     if isinstance(losses, dict):

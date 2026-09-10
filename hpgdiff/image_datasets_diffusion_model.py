@@ -12,7 +12,7 @@ def load_data(*, batch_size, image_size):
 
     try:
 
-        dataset = load_dataset("train")
+        dataset = load_dataset("scottyjb/HPGDiff_train")
 
         train_dataset = HFDataset(dataset)
 

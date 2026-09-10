@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import math
 
 
@@ -14,7 +15,17 @@ class TopoReserveLoss(nn.Module):
 
 
         self.num_diffusion_steps = math.ceil(math.log2(image_size))
-        self.pool = nn.MaxPool2d(kernel_size=3, stride=1, padding=1)
+        self.pools = nn.ModuleList()
+        for k in range(self.num_diffusion_steps):
+            dilation = 2 ** k
+            self.pools.append(
+                nn.MaxPool2d(
+                    kernel_size=3,
+                    stride=1,
+                    padding=0,
+                    dilation=dilation,
+                )
+            )
 
     def time_weight(self, t, total_timesteps):
 
@@ -27,8 +38,15 @@ class TopoReserveLoss(nn.Module):
         D_current = source_mask.clone()
 
 
-        for _ in range(self.num_diffusion_steps):
-            P_k = self.pool(D_current)
+        for k in range(self.num_diffusion_steps):
+            dilation = 2 ** k
+            D_padded = F.pad(
+                D_current,
+                (dilation, dilation, dilation, dilation),
+                mode="constant",
+                value=0,
+            )
+            P_k = self.pools[k](D_padded)
             D_next = D_current + (P_k * structure_pred)
             D_current = torch.clamp(D_next, 0, 1)
 

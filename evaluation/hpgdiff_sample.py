@@ -6,6 +6,7 @@ from pathlib import Path
 import numpy as np
 import torch as th
 import torch.distributed as dist
+from peft import PeftModel
 
 project_root = Path(__file__).resolve().parents[1]
 if str(project_root) not in sys.path:
@@ -33,6 +34,8 @@ def main():
     model.load_state_dict(
         dist_util.load_state_dict(args.model_path, map_location="cpu")
     )
+    if args.lora_path:
+        model = PeftModel.from_pretrained(model, args.lora_path)
     model.to(dist_util.dev())
     if args.use_fp16:
         model.convert_to_fp16()
@@ -146,6 +149,7 @@ def create_argparser():
         batch_size=1,
         use_ddim=False,
         model_path="",
+        lora_path="",
         test_level="",
         psl_attn_sample_index=-1,
         psl_attn_dir="feature_maps_psl_attn",

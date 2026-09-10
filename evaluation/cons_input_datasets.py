@@ -13,7 +13,7 @@ def load_data(
 
     try:
 
-        dataset = load_dataset("test")
+        dataset = load_dataset("scottyjb/HPGDiff_test")
 
         test_split = f"test_level_{test_level}"
         test_data = dataset[test_split]

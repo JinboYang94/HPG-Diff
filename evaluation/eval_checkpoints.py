@@ -50,7 +50,7 @@ def get_next_log_dir():
 
 def load_test_constraints(test_level):
     try:
-        dataset = load_dataset('test')
+        dataset = load_dataset('scottyjb/HPGDiff_test')
         test_split = f'test_level_{test_level}'
         test_data = dataset[test_split]
         size = 1800 if test_level == 1 else 1000
@@ -123,7 +123,7 @@ def generate_test_samples(args, num_samples):
 
 def evaluate_samples(constraints, gen_dir, num_samples, num_folder, test_level):
     analysis = hpgdiff_analysis.hpgdiff_analysis(num_samples, num_folder, constraints, gen_dir)
-    dataset = load_dataset('test')
+    dataset = load_dataset('scottyjb/HPGDiff_test')
     test_data = dataset[f'test_level_{test_level}']
     compliance_opt = np.array(test_data[0]['compliance'])
     logger.info(f"Reference compliance loaded. Shape: {compliance_opt.shape}")
