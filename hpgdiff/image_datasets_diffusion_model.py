@@ -4,7 +4,7 @@ import numpy as np
 from torch.utils.data import DataLoader, Dataset
 import matplotlib.pyplot as plt
 import seaborn as sns
-from datasets import load_dataset
+from hpgdiff.datasets import load_training_data
 from scipy.ndimage import label
 
 
@@ -12,7 +12,7 @@ def load_data(*, batch_size, image_size):
 
     try:
 
-        dataset = load_dataset("scottyjb/HPGDiff_train")
+        dataset = load_training_data()
 
         train_dataset = HFDataset(dataset)
 
@@ -108,7 +108,7 @@ class HFDataset(Dataset):
     def __init__(self, dataset):
 
 
-        self.dataset = dataset['train']
+        self.dataset = dataset
         self.resolution = 64
 
     def __len__(self):

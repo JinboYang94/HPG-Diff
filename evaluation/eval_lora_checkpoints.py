@@ -6,7 +6,6 @@ import time
 from pathlib import Path
 
 import numpy as np
-from datasets import load_dataset
 
 evaluation_root = Path(__file__).resolve().parent
 project_root = evaluation_root.parent
@@ -16,6 +15,7 @@ if str(evaluation_root) not in sys.path:
     sys.path.insert(0, str(evaluation_root))
 
 from hpgdiff import logger
+from hpgdiff.datasets import load_test_data
 import hpgdiff_analysis
 
 os.environ['HPGDIFF_LOGDIR'] = str(project_root / 'generated_lora')
@@ -56,9 +56,7 @@ def get_next_log_dir():
 
 
 def load_test_constraints(test_level):
-    dataset = load_dataset('scottyjb/HPGDiff_test')
-    test_split = f'test_level_{test_level}'
-    test_data = dataset[test_split]
+    test_data = load_test_data(test_level)
     size = 1800 if test_level == 1 else 1000
     constraints = np.empty(size, dtype=object)
     for i in range(size):
@@ -114,8 +112,7 @@ def generate_lora_samples(args, num_samples):
 
 def evaluate_samples(constraints, gen_dir, num_samples, num_folder, test_level):
     analysis = hpgdiff_analysis.hpgdiff_analysis(num_samples, num_folder, constraints, gen_dir)
-    dataset = load_dataset('scottyjb/HPGDiff_test')
-    test_data = dataset[f'test_level_{test_level}']
+    test_data = load_test_data(test_level)
     compliance_opt = np.array(test_data[0]['compliance'])
     logger.info(f"Reference compliance loaded. Shape: {compliance_opt.shape}")
     compliance_opt = hpgdiff_analysis.re_order_tab(num_samples, compliance_opt)

@@ -2,7 +2,7 @@ import blobfile as bf
 import numpy as np
 from torch.utils.data import DataLoader, Dataset
 from hpgdiff import logger
-from datasets import load_dataset
+from hpgdiff.datasets import load_test_data
 from hpgdiff import logger
 from PIL import Image
 
@@ -13,10 +13,7 @@ def load_data(
 
     try:
 
-        dataset = load_dataset("scottyjb/HPGDiff_test")
-
-        test_split = f"test_level_{test_level}"
-        test_data = dataset[test_split]
+        test_data = load_test_data(test_level)
 
         test_dataset = HFTestDataset(test_data)
 
