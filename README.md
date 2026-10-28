@@ -60,7 +60,12 @@ Checkpoints and logs are written under `checkpoints/`.
 Sample from a trained checkpoint:
 
 ```bash
-python evaluation/hpgdiff_sample.py --model_path checkpoints/diff_logdir_1/model120000.pt --test_level 1
+python evaluation/hpgdiff_sample.py \
+  --model_path checkpoints/diff_logdir_1/model120000.pt --test_level 1 \
+  --image_size 64 --num_channels 128 --num_res_blocks 3 \
+  --use_spatial_transformer True --learn_sigma True \
+  --dropout 0.3 --use_fp16 True \
+  --diffusion_steps 1000 --noise_schedule cosine --timestep_respacing 100
 ```
 
 Generate samples and evaluate a checkpoint:
@@ -95,3 +100,7 @@ The local LoRA data contains topology images, physical fields, principal stress 
   doi     = {10.1016/j.asoc.2026.115899}
 }
 ```
+
+## License
+
+Current author contributions and the dataset are released under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Previously released MIT material retains its original permissions; see [LICENSE-MIT](LICENSE-MIT). Third-party components retain their original licenses.
